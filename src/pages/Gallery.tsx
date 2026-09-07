@@ -3,124 +3,15 @@ import { X, ZoomIn } from 'lucide-react';
 import { useInView } from '../hooks/useInView';
 
 const IMAGES = [
-  { src: 'https://i.imgur.com/7dTi44k.jpeg', cat: 'Kitchen', title: 'Granite Kitchen Counter' },
-  { src: 'https://i.imgur.com/9uJGT7h.jpeg', cat: 'Commercial', title: 'Reception Counter Installation' },
-  { src: 'https://i.imgur.com/lqogvWX.jpeg', cat: 'Bathroom', title: 'Marble Bathroom Vanity' },
-  { src: 'https://i.imgur.com/bYZtqnQ.jpeg', cat: 'Kitchen', title: 'Premium Granite Surface' },
-  { src: 'https://i.imgur.com/4QFhhOU.jpeg', cat: 'Wall Cladding', title: 'Marble Wall Feature' },
-  { src: 'https://i.imgur.com/BYZAp69.jpeg', cat: 'Bathroom', title: 'Quartz Vanity Top' },
-  { src: 'https://i.imgur.com/k8syAx0.jpeg', cat: 'Outdoor', title: 'Porcelain Cladding' },
-  { src: 'https://i.imgur.com/rBPNMKo.jpeg', cat: 'Kitchen', title: 'Custom Kitchen Counter' },
+  { src:'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=85', cat:'Audit', title:'Internal Audit Review' },
+  { src:'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=85', cat:'Finance', title:'Financial Advisory Session' },
+  { src:'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=85', cat:'Tax', title:'Tax & Financial Planning' },
+  { src:'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=85', cat:'Governance', title:'Governance Team Workshop' },
+  { src:'https://images.unsplash.com/photo-1589578527966-fdac0f44566c?auto=format&fit=crop&w=1200&q=85', cat:'Compliance', title:'Compliance & Investigation Review' },
+  { src:'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=85', cat:'ICT', title:'ICT Systems & Support' },
+  { src:'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=85', cat:'Assets', title:'Asset Management Support' },
+  { src:'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=85', cat:'Advisory', title:'Professional Advisory Environment' },
 ];
-
-const CATS = ['All', ...Array.from(new Set(IMAGES.map((i) => i.cat)))];
-
-function Reveal({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  const { ref, inView } = useInView();
-  return (
-    <div ref={ref} className={`${className} ${inView ? 'animate-scale-in' : 'opacity-0'}`}>
-      {children}
-    </div>
-  );
-}
-
-export default function Gallery() {
-  const [filter, setFilter] = useState('All');
-  const [lightbox, setLightbox] = useState<typeof IMAGES[0] | null>(null);
-
-  const filtered = filter === 'All' ? IMAGES : IMAGES.filter((i) => i.cat === filter);
-
-  return (
-    <div className="page-enter pt-24">
-      {/* Header */}
-      <section className="relative py-20 bg-stone-900 overflow-hidden">
-        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'url(https://i.imgur.com/lqogvWX.jpeg)', backgroundSize: 'cover', backgroundPosition: 'center' }} />
-        <div className="relative max-w-7xl mx-auto px-4 text-center">
-          <span className="section-tag text-amber-400">Our Portfolio</span>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mt-2 mb-4">Project Gallery</h1>
-          <div className="gold-bar mx-auto" />
-          <p className="text-stone-300 max-w-xl mx-auto mt-4">
-            Browse our portfolio of completed stone installations — from kitchens to commercial spaces.
-          </p>
-        </div>
-      </section>
-
-      {/* Filter tabs */}
-      <section className="py-10 bg-white border-b border-stone-100 sticky top-16 z-20">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-wrap gap-2 justify-center">
-            {CATS.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setFilter(cat)}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                  filter === cat
-                    ? 'bg-amber-500 text-white shadow-md'
-                    : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Grid */}
-      <section className="py-16 bg-stone-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {filtered.map((item) => (
-              <Reveal key={item.src}>
-                <div
-                  className="gallery-item relative cursor-pointer rounded-2xl overflow-hidden shadow-sm group"
-                  onClick={() => setLightbox(item)}
-                >
-                  <img
-                    src={item.src}
-                    alt={item.title}
-                    className="w-full h-52 object-cover"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
-                    <ZoomIn size={28} className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/70 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    <p className="text-white text-xs font-semibold">{item.title}</p>
-                    <span className="text-amber-300 text-[10px]">{item.cat}</span>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Lightbox */}
-      {lightbox && (
-        <div
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4 animate-fade-in"
-          onClick={() => setLightbox(null)}
-        >
-          <button
-            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center"
-            aria-label="Close"
-          >
-            <X size={20} />
-          </button>
-          <div className="max-w-4xl w-full" onClick={(e) => e.stopPropagation()}>
-            <img
-              src={lightbox.src}
-              alt={lightbox.title}
-              className="w-full max-h-[80vh] object-contain rounded-xl"
-            />
-            <div className="text-center mt-4">
-              <p className="text-white font-semibold">{lightbox.title}</p>
-              <span className="text-amber-400 text-sm">{lightbox.cat}</span>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+const CATS=['All',...Array.from(new Set(IMAGES.map(i=>i.cat)))];
+function Reveal({children,className=''}:{children:React.ReactNode;className?:string}){const{ref,inView}=useInView();return <div ref={ref} className={`${className} ${inView?'animate-scale-in':'opacity-0'}`}>{children}</div>}
+export default function Gallery(){const[filter,setFilter]=useState('All');const[lightbox,setLightbox]=useState<typeof IMAGES[0]|null>(null);const filtered=filter==='All'?IMAGES:IMAGES.filter(i=>i.cat===filter);return <div className="page-enter pt-20 bg-white"><section className="relative py-24 bg-[#071d38] overflow-hidden"><div className="absolute inset-0 opacity-25 bg-[url('https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1800&q=85')] bg-cover bg-center"/><div className="absolute inset-0 bg-gradient-to-r from-[#06172e] via-[#082c49]/90 to-[#008e9e]/40"/><div className="relative max-w-7xl mx-auto px-5"><p className="text-cyan-300 uppercase tracking-[.25em] text-xs font-bold">Professional Services in Action</p><h1 className="text-white text-5xl md:text-6xl font-extrabold mt-3">Gallery</h1><p className="text-slate-200 mt-5 max-w-2xl text-lg">A visual overview of the professional environments, disciplines and solutions represented by KAM Internal Auditors Inc.</p></div></section><section className="py-8 border-b border-slate-100 sticky top-20 z-20 bg-white/95 backdrop-blur"><div className="max-w-7xl mx-auto px-5 flex flex-wrap gap-2 justify-center">{CATS.map(cat=><button key={cat} onClick={()=>setFilter(cat)} className={`px-5 py-2 rounded-full text-sm font-semibold transition ${filter===cat?'bg-cyan-600 text-white':'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>{cat}</button>)}</div></section><section className="py-16 bg-slate-50"><div className="max-w-7xl mx-auto px-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">{filtered.map(item=><Reveal key={item.src}><button onClick={()=>setLightbox(item)} className="relative w-full h-64 rounded-3xl overflow-hidden shadow-sm group text-left"><img src={item.src} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition duration-500"/><div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"/><div className="absolute bottom-0 p-4"><p className="text-white font-bold">{item.title}</p><span className="text-cyan-300 text-xs">{item.cat}</span></div><ZoomIn className="absolute top-4 right-4 text-white opacity-0 group-hover:opacity-100 transition"/></button></Reveal>)}</div></section>{lightbox&&<div onClick={()=>setLightbox(null)} className="fixed inset-0 z-[90] bg-black/90 p-4 flex items-center justify-center"><button className="absolute top-5 right-5 text-white"><X/></button><div onClick={e=>e.stopPropagation()} className="max-w-5xl w-full"><img src={lightbox.src} alt={lightbox.title} className="w-full max-h-[80vh] object-contain rounded-2xl"/><p className="text-center text-white mt-4 font-bold">{lightbox.title}</p></div></div>}</div>}
