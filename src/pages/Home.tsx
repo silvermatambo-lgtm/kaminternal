@@ -1,108 +1,119 @@
 import { useEffect, useState } from 'react';
-import { ArrowRight, CheckCircle2, ShieldCheck, Landmark, Calculator, Monitor, Search, Building2, Target, Eye, Star, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, ShieldCheck, Users, BarChart3, Award, CheckCircle2, X } from 'lucide-react';
 
-const WHATSAPP_NUMBER = '27151010500';
+const WHATSAPP_NUMBER='27151010500';
 
-const heroSlides = [
+const heroSlides=[
   {
-    image: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=2000&q=90',
-    eyebrow: 'Professionalism · Integrity · Innovation · Excellence',
-    title: 'Audit. Advisory. Taxation. ICT.',
-    accent: 'Business Solutions.',
-    text: 'High-quality professional services for municipalities, universities, TVET colleges, NPOs, departments, public entities and private companies.'
+    image:'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=2200&q=90',
+    title:'Professional Audit, Tax and',
+    accent:'Advisory Services',
+    suffix:'for a Better Tomorrow',
+    text:'KAM Internal Auditors Inc. delivers trusted audit, taxation, financial, governance and ICT solutions to municipalities, businesses and individuals.',
+    quote:'Integrity. Accountability. Better Communities.'
   },
   {
-    image: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=2000&q=90',
-    eyebrow: 'Public Sector · Municipal Finance · Governance',
-    title: 'Stronger Controls. Better Decisions.',
-    accent: 'Accountable Institutions.',
-    text: 'Supporting organisations with governance, budgeting, risk management, financial reporting and audit readiness.'
+    image:'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=2200&q=90',
+    title:'Stronger Governance and',
+    accent:'Smarter Financial Control',
+    suffix:'for Sustainable Growth',
+    text:'We help organisations strengthen internal controls, improve accountability and make better financial and operational decisions.',
+    quote:'Professional. Experienced. Tailored Solutions.'
   },
   {
-    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=2000&q=90',
-    eyebrow: 'Technology · Cybersecurity · Digital Enablement',
-    title: 'Modern Technology for',
-    accent: 'Modern Business.',
-    text: 'IT consulting, infrastructure, networks, cloud services, cybersecurity, CCTV, business systems and staff digital training.'
+    image:'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=2200&q=90',
+    title:'Modern Business and',
+    accent:'ICT Solutions',
+    suffix:'Built for Today',
+    text:'From infrastructure and cybersecurity to business systems and staff training, we support organisations with practical digital solutions.',
+    quote:'Innovation. Efficiency. Excellence.'
   }
 ];
 
-const services = [
-  ['Internal Audit & Governance','Strengthening governance, internal controls, accountability and operational performance.',ShieldCheck,'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1400&q=85'],
-  ['Asset Management','GRAP/IFRS compliant asset registers, verification, condition assessments, optimisation and training.',Building2,'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=85'],
-  ['Budgeting & Municipal Finance','GRAP compliant budgeting, cash flow, reconciliations, annual financial statements and audit files.',Landmark,'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1400&q=85'],
-  ['Enterprise Risk Management','Integrated risk management, risk infrastructure, enterprise risk assessments and awareness training.',Target,'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=85'],
-  ['Investigations & Compliance','Forensic investigations, irregular expenditure investigations and regulatory compliance reviews.',Search,'https://images.unsplash.com/photo-1589578527966-fdac0f44566c?auto=format&fit=crop&w=1400&q=85'],
-  ['Taxation Services','Corporate tax, individual tax, indirect tax and municipal finance support.',Calculator,'https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=1400&q=85'],
-  ['IT Systems Services','IT consulting, support, infrastructure, networks, cloud, cybersecurity, CCTV, business systems and staff training.',Monitor,'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=85'],
-] as const;
-
-const gallery = [
-  ['Audit & Assurance','https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1400&q=85'],
-  ['Municipal Finance','https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1400&q=85'],
-  ['Governance & Compliance','https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=85'],
-  ['Accounting Advisory','https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1400&q=85'],
-  ['IT & Cybersecurity','https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=85'],
-  ['Financial Strategy','https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1400&q=85']
-] as const;
-
-const values = ['Professionalism','Integrity','Excellence','Commitment and Dedication','Continuous Improvement','Innovation','Teamwork','Client Satisfaction'];
+const services=[
+  {title:'Internal Audit & Governance',image:'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1400&q=85',desc:'Strengthening governance, internal controls, accountability and operational performance.'},
+  {title:'Asset Management',image:'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=85',desc:'Asset verification, asset registers, condition assessments and asset management support.'},
+  {title:'Budgeting & Municipal Financial Services',image:'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1400&q=85',desc:'Budget preparation, financial reporting, GRAP compliance and municipal finance support.'},
+  {title:'Enterprise Risk Management',image:'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=85',desc:'Risk assessments, risk registers and implementation of risk management frameworks.'}
+];
 
 export default function Home(){
   const [slide,setSlide]=useState(0);
   const [selected,setSelected]=useState<string|null>(null);
   const [name,setName]=useState('');
   const [phone,setPhone]=useState('');
-  const [message,setMessage]=useState('');
+  const [details,setDetails]=useState('');
 
-  useEffect(()=>{
-    const timer=window.setInterval(()=>setSlide(s=>(s+1)%heroSlides.length),6500);
-    return()=>window.clearInterval(timer);
-  },[]);
-
+  useEffect(()=>{const timer=window.setInterval(()=>setSlide(s=>(s+1)%heroSlides.length),6500);return()=>window.clearInterval(timer)},[]);
   const current=heroSlides[slide];
 
-  const openRequest=(service:string)=>{
-    setSelected(service);
-    setMessage(`I would like more information about ${service}.`);
-  };
-
+  const openRequest=(service:string)=>{setSelected(service);setDetails(`I would like more information about ${service}.`)};
   const sendWhatsApp=()=>{
-    if(!selected) return;
-    const text = `Hello KAM Internal Auditors Inc.\n\nSERVICE ENQUIRY: ${selected}\nName: ${name || 'Not provided'}\nPhone: ${phone || 'Not provided'}\nDetails: ${message || `I would like more information about ${selected}.`}`;
+    if(!selected)return;
+    const text=`Hello KAM Internal Auditors Inc.\n\nSERVICE ENQUIRY: ${selected}\nName: ${name||'Not provided'}\nPhone: ${phone||'Not provided'}\nDetails: ${details||`I would like more information about ${selected}.`}`;
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`,'_blank');
   };
 
-  return <div className="bg-white">
-    <section className="pt-20 min-h-[760px] relative overflow-hidden bg-[#071d38]">
-      {heroSlides.map((item,index)=><img key={item.image} src={item.image} alt={item.title} className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ${index===slide?'opacity-55 scale-100':'opacity-0 scale-105'}`}/>)}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#06172e] via-[#082c49]/90 to-[#008e9e]/25"/>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_30%,rgba(34,211,238,0.13),transparent_36%)]"/>
-      <div className="relative max-w-7xl mx-auto px-5 py-28 md:py-40 min-h-[680px] flex items-center">
-        <div className="max-w-3xl">
-          <p className="text-cyan-300 uppercase tracking-[.25em] text-xs font-bold mb-5">{current.eyebrow}</p>
-          <h1 key={`${slide}-title`} className="text-white text-5xl md:text-7xl font-black leading-[1.02] mb-6 drop-shadow-xl animate-fade-up">{current.title}<br/><span className="text-cyan-400">{current.accent}</span></h1>
-          <p key={`${slide}-text`} className="text-slate-100 text-lg md:text-xl max-w-2xl leading-8 mb-8 drop-shadow animate-fade-up">{current.text}</p>
-          <div className="flex flex-wrap gap-3"><a href="/services" className="inline-flex items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-[#06172e] font-bold px-6 py-3.5 rounded-xl shadow-lg shadow-cyan-500/20 transition">Explore Services <ArrowRight size={17}/></a><a href="/contact" className="inline-flex items-center gap-2 border border-white/50 text-white px-6 py-3.5 rounded-xl hover:bg-white/10 transition">Contact Us</a></div>
+  return <div className="bg-white pt-24 md:pt-[132px]">
+    <section className="relative min-h-[610px] md:min-h-[660px] overflow-hidden bg-[#071d38]">
+      {heroSlides.map((item,index)=><img key={item.image} src={item.image} alt="Professional KAM advisory environment" className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ${index===slide?'opacity-100 scale-100':'opacity-0 scale-105'}`}/>)}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#041a2f]/95 via-[#08213f]/78 to-[#08213f]/30"/>
+      <div className="relative max-w-7xl mx-auto px-5 py-20 md:py-24 min-h-[610px] md:min-h-[660px] grid lg:grid-cols-[1.25fr_.75fr] gap-10 items-center">
+        <div className="max-w-3xl text-white">
+          <h1 key={slide} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.04] tracking-tight animate-fade-up">
+            {current.title}<br/><span className="text-[#27b267]">{current.accent}</span><br/>{current.suffix}
+          </h1>
+          <p className="mt-6 text-base md:text-lg text-slate-100 leading-8 max-w-2xl">{current.text}</p>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <a href="/services" className="inline-flex items-center gap-2 bg-[#0aa35b] hover:bg-[#07884c] text-white px-7 py-3.5 rounded-lg font-bold transition">Our Services <ArrowRight size={17}/></a>
+            <a href="/contact" className="inline-flex items-center gap-2 border-2 border-white text-white px-7 py-3.5 rounded-lg font-bold hover:bg-white hover:text-[#08213f] transition">Contact Us</a>
+          </div>
+        </div>
+        <div className="hidden lg:block text-white justify-self-end max-w-sm">
+          <div className="text-3xl font-black leading-tight mb-7">“{current.quote}”</div>
+          <div className="h-1 w-12 bg-[#27b267] mb-8"/>
+          <div className="space-y-5">
+            {[['Trusted by Municipalities',ShieldCheck],['Professional & Experienced',Users],['Tailored Solutions',BarChart3],['Committed to Excellence',Award]].map(([label,Icon])=><div key={label as string} className="flex gap-4 items-start"><div className="w-10 h-10 rounded-xl border border-white/25 bg-white/10 flex items-center justify-center"><Icon size={20}/></div><div className="font-semibold leading-6">{label as string}</div></div>)}
+          </div>
         </div>
       </div>
-      <button aria-label="Previous slide" onClick={()=>setSlide(s=>(s-1+heroSlides.length)%heroSlides.length)} className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/25 border border-white/20 text-white flex items-center justify-center hover:bg-black/45"><ChevronLeft/></button>
-      <button aria-label="Next slide" onClick={()=>setSlide(s=>(s+1)%heroSlides.length)} className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/25 border border-white/20 text-white flex items-center justify-center hover:bg-black/45"><ChevronRight/></button>
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2">{heroSlides.map((_,i)=><button key={i} aria-label={`Go to slide ${i+1}`} onClick={()=>setSlide(i)} className={`h-2.5 rounded-full transition-all ${i===slide?'w-9 bg-cyan-400':'w-2.5 bg-white/50'}`}/>)}</div>
+      <button onClick={()=>setSlide(s=>(s-1+heroSlides.length)%heroSlides.length)} aria-label="Previous slide" className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-white/70 text-white flex items-center justify-center bg-black/15 hover:bg-black/30"><ChevronLeft size={20}/></button>
+      <button onClick={()=>setSlide(s=>(s+1)%heroSlides.length)} aria-label="Next slide" className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-white/70 text-white flex items-center justify-center bg-black/15 hover:bg-black/30"><ChevronRight size={20}/></button>
+      <div className="absolute bottom-7 left-5 md:left-[calc((100%-1280px)/2+20px)] flex gap-2">{heroSlides.map((_,i)=><button key={i} onClick={()=>setSlide(i)} aria-label={`Go to slide ${i+1}`} className={`h-3 rounded-full transition-all ${slide===i?'w-3 bg-[#27b267]':'w-3 bg-white/85'}`}/>)}</div>
     </section>
 
-    <section className="bg-[#0a3652] text-white"><div className="max-w-7xl mx-auto px-4 py-7 grid grid-cols-2 lg:grid-cols-4 gap-5">{[['100%','Black-Owned'],['2021','Established'],['SAICA & SARS','Registered'],['IIASA','Registered Auditors']].map(x=><div key={x[0]} className="border-l-2 border-cyan-400 pl-4"><strong className="text-xl md:text-2xl">{x[0]}</strong><p className="text-slate-300 text-sm">{x[1]}</p></div>)}</div></section>
+    <section className="bg-white border-b border-slate-100 shadow-sm">
+      <div className="max-w-7xl mx-auto px-5 py-7 grid grid-cols-2 lg:grid-cols-4 gap-6">
+        {[[Users,'100+','Satisfied Clients'],[ShieldCheck,'15+','Municipalities Supported'],[BarChart3,'10+','Years of Experience'],[Award,'Professional','Registered & Compliant']].map(([Icon,value,label])=><div key={label as string} className="flex items-center gap-4"><div className="text-[#08213f]"><Icon size={34}/></div><div><div className="text-2xl font-black text-[#08213f]">{value as string}</div><div className="text-sm text-slate-600">{label as string}</div></div></div>)}
+      </div>
+    </section>
 
-    <section className="py-20"><div className="max-w-7xl mx-auto px-5 grid lg:grid-cols-2 gap-14 items-center"><div className="grid grid-cols-2 gap-4"><img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85" alt="Professional advisory team" className="w-full h-[420px] object-cover rounded-3xl shadow-xl col-span-2"/><img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=85" alt="Finance professionals" className="w-full h-44 object-cover rounded-2xl"/><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=900&q=85" alt="Governance meeting" className="w-full h-44 object-cover rounded-2xl"/></div><div><p className="text-cyan-600 uppercase tracking-widest text-xs font-bold">Company Introduction</p><h2 className="text-4xl md:text-5xl font-black text-[#08213f] mt-3 mb-5">KAM Internal Auditors Inc.</h2><p className="text-slate-600 leading-7 mb-4">KAM Internal Auditors Inc. is a fast-growing 100% black-owned professional services firm established in 2021.</p><p className="text-slate-600 leading-7 mb-4">The company is registered with the South African Institute of Chartered Accountants (SAICA) and South African Revenue Services (SARS) as a Tax Practitioner. Our experienced internal auditors are registered members of the Institute of Internal Auditors South Africa (IIASA).</p><p className="text-slate-600 leading-7 mb-6">We provide high-quality audit, advisory, taxation, ICT, and business support services. Our commitment is built around professionalism, integrity, innovation, and excellence.</p><div className="grid sm:grid-cols-2 gap-3">{['Professional expertise','Client-centered service','Modern technology solutions','Public & private sector'].map(v=><div className="flex items-center gap-2 text-sm font-semibold text-[#08213f]" key={v}><CheckCircle2 size={18} className="text-cyan-500"/>{v}</div>)}</div><a href="/about" className="mt-7 inline-flex items-center gap-2 text-cyan-700 font-bold">Learn more about KAM <ArrowRight size={17}/></a></div></div></section>
+    <section className="py-16 md:py-20 bg-[#fbfcfd]">
+      <div className="max-w-7xl mx-auto px-5">
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 mb-10">
+          <div>
+            <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-[.18em] text-slate-600"><span className="w-7 h-0.5 bg-[#27b267]"/> Our Services</div>
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight text-[#08213f] mt-3">Comprehensive Solutions for Your Success</h2>
+            <p className="text-slate-600 mt-3 max-w-2xl">We offer professional services that help organisations improve governance, strengthen controls, maintain compliance and operate more effectively.</p>
+          </div>
+          <a href="/services" className="inline-flex items-center gap-2 border border-[#08213f] text-[#08213f] px-6 py-3 rounded-lg font-bold hover:bg-[#08213f] hover:text-white transition">View All Services <ArrowRight size={16}/></a>
+        </div>
+        <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-5">
+          {services.map(service=><article key={service.title} className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden hover:-translate-y-1 hover:shadow-xl transition group">
+            <div className="h-44 overflow-hidden"><img src={service.image} alt={service.title} className="w-full h-full object-cover group-hover:scale-105 transition duration-500"/></div>
+            <div className="p-5"><h3 className="text-lg font-black text-[#08213f] leading-tight min-h-[48px]">{service.title}</h3><p className="text-slate-600 text-sm leading-6 mt-2 min-h-[96px]">{service.desc}</p><button onClick={()=>openRequest(service.title)} className="mt-4 w-full inline-flex items-center justify-center gap-2 bg-[#0aa35b] hover:bg-[#07884c] text-white px-4 py-3 rounded-md font-bold transition">Request This Service</button></div>
+          </article>)}
+        </div>
+      </div>
+    </section>
 
-    <section className="py-20 bg-slate-50"><div className="max-w-7xl mx-auto px-5"><div className="text-center max-w-3xl mx-auto mb-12"><p className="text-cyan-600 uppercase tracking-widest text-xs font-bold">Our Services</p><h2 className="text-4xl md:text-5xl font-black text-[#08213f] mt-3">Comprehensive Professional Solutions</h2><p className="mt-4 text-slate-600">Choose a service and send a detailed enquiry directly to KAM through WhatsApp.</p></div><div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">{services.map(([title,desc,Icon,image])=><article key={title} className="group bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:-translate-y-1 hover:shadow-xl transition"><div className="h-52 overflow-hidden bg-slate-200"><img src={image} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition duration-500"/></div><div className="p-7"><div className="w-12 h-12 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center mb-5"><Icon/></div><h3 className="font-bold text-xl text-[#08213f] mb-3">{title}</h3><p className="text-slate-600 text-sm leading-6 mb-6">{desc}</p><button onClick={()=>openRequest(title)} className="w-full inline-flex items-center justify-center gap-2 bg-[#08213f] hover:bg-cyan-700 text-white px-5 py-3 rounded-xl font-bold transition">Request This Service <ArrowRight size={16}/></button></div></article>)}</div><div className="text-center mt-10"><a href="/services" className="inline-flex items-center gap-2 border border-[#08213f] text-[#08213f] hover:bg-[#08213f] hover:text-white px-6 py-3 rounded-xl font-bold transition">View Full Services <ArrowRight size={17}/></a></div></div></section>
+    <section className="py-16 bg-[#08213f] text-white">
+      <div className="max-w-7xl mx-auto px-5 grid lg:grid-cols-2 gap-12 items-center">
+        <div><div className="flex items-center gap-3 text-xs font-bold uppercase tracking-[.18em] text-emerald-300"><span className="w-7 h-0.5 bg-[#27b267]"/> Why Choose KAM</div><h2 className="text-3xl md:text-5xl font-black mt-4">Professional. Compliant. Client-Focused.</h2><p className="text-slate-300 leading-8 mt-5">KAM Internal Auditors Inc. combines financial expertise, governance knowledge and technology capability to deliver practical, cost-effective solutions for public and private organisations.</p><div className="grid sm:grid-cols-2 gap-4 mt-7">{['Professional expertise','Registered & compliant','Innovative solutions','Client-centred service'].map(item=><div key={item} className="flex items-center gap-3"><CheckCircle2 className="text-[#27b267]" size={19}/><span>{item}</span></div>)}</div></div>
+        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1400&q=85" alt="Professional advisory meeting" className="w-full h-[380px] object-cover rounded-2xl shadow-2xl"/>
+      </div>
+    </section>
 
-    <section className="py-20 bg-white"><div className="max-w-7xl mx-auto px-5"><div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10"><div><p className="text-cyan-600 uppercase tracking-widest text-xs font-bold">Gallery</p><h2 className="text-4xl md:text-5xl font-black text-[#08213f] mt-3">Professional Services in Action</h2></div><a href="/gallery" className="inline-flex items-center gap-2 text-cyan-700 font-bold">View Full Gallery <ArrowRight size={17}/></a></div><div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">{gallery.map(([label,image],i)=><div key={label} className={`${i===0?'lg:col-span-2':''} relative rounded-3xl overflow-hidden min-h-[260px] group bg-slate-200`}><img src={image} alt={label} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500"/><div className="absolute inset-0 bg-gradient-to-t from-[#06172e]/85 via-transparent to-transparent"/><div className="absolute left-6 bottom-6 text-white"><p className="text-xs uppercase tracking-widest text-cyan-300 mb-2">KAM Internal Auditors Inc.</p><h3 className="text-2xl font-bold">{label}</h3></div></div>)}</div></div></section>
-
-    <section className="py-20 relative text-white overflow-hidden"><div className="absolute inset-0"><img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=2000&q=85" alt="Financial planning meeting" className="w-full h-full object-cover"/><div className="absolute inset-0 bg-[#06172e]/90"/></div><div className="relative max-w-7xl mx-auto px-5 grid lg:grid-cols-3 gap-8"><div className="p-7 border border-white/10 rounded-2xl bg-white/5 backdrop-blur-sm"><Eye className="text-cyan-400 mb-4"/><h3 className="text-2xl font-bold mb-3">Our Vision</h3><p className="text-slate-300 leading-7">To become a leading and highly innovative audit, advisory, ICT, and business solutions provider recognized for excellence, professionalism, and client-centered service delivery.</p></div><div className="p-7 border border-white/10 rounded-2xl bg-white/5 backdrop-blur-sm"><Target className="text-cyan-400 mb-4"/><h3 className="text-2xl font-bold mb-3">Our Mission</h3><p className="text-slate-300 leading-7">To deliver efficient, professional, and innovative solutions that help clients improve governance, strengthen internal controls, enhance operational performance, and embrace modern technology systems.</p></div><div className="p-7 border border-white/10 rounded-2xl bg-white/5 backdrop-blur-sm"><Star className="text-cyan-400 mb-4"/><h3 className="text-2xl font-bold mb-3">Core Values</h3><div className="grid grid-cols-2 gap-2 text-sm text-slate-300">{values.map(v=><span key={v}>• {v}</span>)}</div></div></div></section>
-
-    <section className="py-20"><div className="max-w-7xl mx-auto px-5 grid lg:grid-cols-2 gap-12 items-center"><div><p className="text-cyan-600 uppercase tracking-widest text-xs font-bold">Why Choose Us</p><h2 className="text-4xl font-black text-[#08213f] my-4">Quality. Cost-Effective. Innovative.</h2><p className="text-slate-600 text-lg leading-8">KAM Internal Auditors Inc. delivers professional solutions tailored to each client. Experienced professionals combine technical expertise with modern technology to support operational excellence, accountability and sustainable growth.</p><a href="/contact" className="mt-8 inline-flex items-center gap-2 bg-[#08213f] text-white px-7 py-4 rounded-xl font-bold hover:bg-cyan-700 transition">Request a Consultation <ArrowRight size={18}/></a></div><img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=1400&q=85" alt="Professional business consultation" className="w-full h-[420px] object-cover rounded-3xl shadow-2xl"/></div></section>
-
-    {selected&&<div className="fixed inset-0 z-[90] bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-4"><div className="bg-white w-full max-w-lg rounded-3xl shadow-2xl p-7 relative"><button onClick={()=>setSelected(null)} className="absolute right-5 top-5 text-slate-500 hover:text-slate-900" aria-label="Close enquiry"><X/></button><p className="text-cyan-600 uppercase tracking-widest text-xs font-bold">Service Enquiry</p><h3 className="text-2xl font-black text-[#08213f] mt-2 mb-1">{selected}</h3><p className="text-slate-500 text-sm mb-5">Fill in your details. The selected service and your information will open in WhatsApp ready to send.</p><div className="space-y-3"><input value={name} onChange={e=>setName(e.target.value)} placeholder="Your full name" className="w-full border border-slate-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-400"/><input value={phone} onChange={e=>setPhone(e.target.value)} placeholder="Your phone number" className="w-full border border-slate-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-400"/><textarea value={message} onChange={e=>setMessage(e.target.value)} placeholder="Tell us what you need" rows={4} className="w-full border border-slate-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-400"/><button onClick={sendWhatsApp} className="w-full bg-[#25D366] hover:bg-[#1fbd5a] text-white py-3.5 rounded-xl font-bold transition">Continue to WhatsApp</button></div></div></div>}
+    {selected&&<div className="fixed inset-0 z-[90] bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4"><div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-7 relative"><button onClick={()=>setSelected(null)} className="absolute right-5 top-5 text-slate-500 hover:text-slate-900"><X/></button><div className="text-xs font-bold uppercase tracking-[.18em] text-[#0aa35b]">Service Enquiry</div><h3 className="text-2xl font-black text-[#08213f] mt-2 pr-10">{selected}</h3><p className="text-slate-500 text-sm mt-2 mb-5">Complete the form and the selected service will be included automatically in the WhatsApp message.</p><div className="space-y-3"><input value={name} onChange={e=>setName(e.target.value)} placeholder="Your full name" className="w-full border border-slate-200 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-emerald-400"/><input value={phone} onChange={e=>setPhone(e.target.value)} placeholder="Your phone number" className="w-full border border-slate-200 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-emerald-400"/><textarea value={details} onChange={e=>setDetails(e.target.value)} rows={4} placeholder="Tell us what you need" className="w-full border border-slate-200 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-emerald-400"/><button onClick={sendWhatsApp} className="w-full bg-[#0aa35b] hover:bg-[#07884c] text-white py-3.5 rounded-lg font-bold">Continue to WhatsApp</button></div></div></div>}
   </div>
 }
