@@ -1,4 +1,3 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -11,41 +10,37 @@ import FloatingWhatsApp from './components/FloatingWhatsApp';
 import PWAInstall from './components/PWAInstall';
 import ScrollToTop from './components/ScrollToTop';
 
-function RouteReset(){
-  const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-  }, [pathname]);
-  return null;
+function normalizePath(pathname: string) {
+  const clean = pathname.replace(/\/+$/, '') || '/';
+  if (clean === '/index.html') return '/';
+  return clean;
 }
 
-function AppRoutes(){
+export default function App(){
+  const path = normalizePath(window.location.pathname);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [path]);
+
+  let page;
+  switch (path) {
+    case '/about': page = <About />; break;
+    case '/services': page = <Services />; break;
+    case '/gallery': page = <Gallery />; break;
+    case '/contact': page = <Contact />; break;
+    case '/':
+    default: page = <Home />; break;
+  }
+
   return (
     <>
       <Navbar />
-      <main className="min-h-[60vh]">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </main>
+      <main className="min-h-[60vh]">{page}</main>
       <Footer />
       <FloatingWhatsApp />
       <PWAInstall />
       <ScrollToTop />
-      <RouteReset />
     </>
-  );
-}
-
-export default function App(){
-  return (
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
   );
 }
