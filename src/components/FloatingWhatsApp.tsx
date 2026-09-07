@@ -1,11 +1,21 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import { MessageCircle, X, ArrowLeft, Send, CheckCircle2 } from 'lucide-react';
 
 type Step = 'welcome' | 'name' | 'phone' | 'service' | 'message' | 'review';
 
-const SERVICES = ['Request a Quote', 'New Project', 'Renovation / Installation', 'Maintenance / Repair', 'Other'];
-const WHATSAPP_NUMBER = '27151010500'; // REBRAND: replace with client WhatsApp number
-const BUSINESS_NAME = 'Your Business'; // REBRAND: replace with client business name
+const SERVICES = [
+  'Internal Audit & Governance',
+  'Asset Management',
+  'Budgeting & Municipal Finance',
+  'Enterprise Risk Management',
+  'Investigations & Compliance',
+  'Taxation Services',
+  'IT Systems Services',
+  'Request a Quote',
+  'Other',
+];
+const WHATSAPP_NUMBER = '27151010500';
+const BUSINESS_NAME = 'KAM Internal Auditors Inc.';
 
 export default function FloatingWhatsApp() {
   const [open, setOpen] = useState(false);
@@ -15,7 +25,7 @@ export default function FloatingWhatsApp() {
   const canContinue = useMemo(() => {
     if (step === 'name') return data.name.trim().length > 1;
     if (step === 'phone') return data.phone.trim().length > 6;
-    if (step === 'service') return !!data.service;
+    if (step === 'service') return Boolean(data.service);
     if (step === 'message') return data.message.trim().length > 2;
     return true;
   }, [step, data]);
@@ -24,13 +34,16 @@ export default function FloatingWhatsApp() {
     const order: Step[] = ['welcome','name','phone','service','message','review'];
     setStep(order[Math.min(order.indexOf(step) + 1, order.length - 1)]);
   };
+
   const back = () => {
     const order: Step[] = ['welcome','name','phone','service','message','review'];
     setStep(order[Math.max(order.indexOf(step) - 1, 0)]);
   };
+
   const sendToWhatsApp = () => {
-    const text = `Hi ${BUSINESS_NAME}, I would like assistance.%0A%0AName: ${encodeURIComponent(data.name)}%0APhone: ${encodeURIComponent(data.phone)}%0AService: ${encodeURIComponent(data.service)}%0AMessage: ${encodeURIComponent(data.message)}`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank', 'noopener,noreferrer');
+    const message = `Hi ${BUSINESS_NAME}, I would like assistance.\n\nName: ${data.name}\nPhone: ${data.phone}\nService: ${data.service}\nMessage: ${data.message}`;
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
     setOpen(false);
   };
 
@@ -49,11 +62,11 @@ export default function FloatingWhatsApp() {
           </div>
 
           <div className="min-h-[280px] p-5">
-            {step === 'welcome' && <><Bubble>Hi 👋 Welcome to {BUSINESS_NAME}. I can help you request a quote or send an enquiry.</Bubble><Bubble>I'll collect a few details first, then prepare your WhatsApp message.</Bubble></>}
-            {step === 'name' && <Field label="What's your name?" value={data.name} onChange={v=>setData({...data,name:v})} placeholder="Your full name" />}
-            {step === 'phone' && <Field label={`Thanks ${data.name}. What's your phone number?`} value={data.phone} onChange={v=>setData({...data,phone:v})} placeholder="e.g. 073 000 0000" type="tel" />}
-            {step === 'service' && <div><p className="mb-3 text-sm font-semibold text-stone-800">What can we help you with?</p><div className="grid gap-2">{SERVICES.map(s=><button key={s} onClick={()=>setData({...data,service:s})} className={`rounded-xl border px-4 py-3 text-left text-sm transition ${data.service===s?'border-amber-500 bg-amber-50 text-amber-800':'border-stone-200 hover:border-amber-300'}`}>{s}</button>)}</div></div>}
-            {step === 'message' && <div><p className="mb-3 text-sm font-semibold text-stone-800">Tell us briefly what you need.</p><textarea autoFocus rows={5} value={data.message} onChange={e=>setData({...data,message:e.target.value})} placeholder="Project details, location, preferred date..." className="w-full resize-none rounded-xl border border-stone-200 p-3 text-sm outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-200"/></div>}
+            {step === 'welcome' && <><Bubble>Hi 👋 Welcome to {BUSINESS_NAME}. I can help you request a quote or send an enquiry.</Bubble><Bubble>I&apos;ll collect a few details first, then prepare your WhatsApp message.</Bubble></>}
+            {step === 'name' && <Field label="What&apos;s your name?" value={data.name} onChange={v=>setData({...data,name:v})} placeholder="Your full name" />}
+            {step === 'phone' && <Field label={`Thanks ${data.name}. What&apos;s your phone number?`} value={data.phone} onChange={v=>setData({...data,phone:v})} placeholder="e.g. 073 000 0000" type="tel" />}
+            {step === 'service' && <div><p className="mb-3 text-sm font-semibold text-stone-800">What can we help you with?</p><div className="grid gap-2">{SERVICES.map(s=><button key={s} onClick={()=>setData({...data,service:s})} className={`rounded-xl border px-4 py-3 text-left text-sm transition ${data.service===s?'border-cyan-500 bg-cyan-50 text-cyan-800':'border-stone-200 hover:border-cyan-300'}`}>{s}</button>)}</div></div>}
+            {step === 'message' && <div><p className="mb-3 text-sm font-semibold text-stone-800">Tell us briefly what you need.</p><textarea autoFocus rows={5} value={data.message} onChange={e=>setData({...data,message:e.target.value})} placeholder="Tell us about the assistance you need..." className="w-full resize-none rounded-xl border border-stone-200 p-3 text-sm outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-200"/></div>}
             {step === 'review' && <div><div className="mb-4 flex items-center gap-2 text-green-600"><CheckCircle2 size={20}/><b>Ready to send</b></div><div className="space-y-2 rounded-2xl bg-stone-50 p-4 text-sm"><p><b>Name:</b> {data.name}</p><p><b>Phone:</b> {data.phone}</p><p><b>Service:</b> {data.service}</p><p><b>Message:</b> {data.message}</p></div><p className="mt-3 text-xs text-stone-500">Nothing is sent until you press “Continue on WhatsApp”.</p></div>}
           </div>
 
@@ -71,5 +84,5 @@ export default function FloatingWhatsApp() {
   );
 }
 
-function Bubble({children}:{children:React.ReactNode}) { return <div className="mb-3 max-w-[90%] rounded-2xl rounded-tl-sm bg-stone-100 px-4 py-3 text-sm leading-relaxed text-stone-700">{children}</div>; }
-function Field({label,value,onChange,placeholder,type='text'}:{label:string;value:string;onChange:(v:string)=>void;placeholder:string;type?:string}) { return <div><p className="mb-3 text-sm font-semibold text-stone-800">{label}</p><input autoFocus type={type} value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder} className="w-full rounded-xl border border-stone-200 px-4 py-3 text-sm outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-200"/></div>; }
+function Bubble({children}:{children:ReactNode}) { return <div className="mb-3 max-w-[90%] rounded-2xl rounded-tl-sm bg-stone-100 px-4 py-3 text-sm leading-relaxed text-stone-700">{children}</div>; }
+function Field({label,value,onChange,placeholder,type='text'}:{label:string;value:string;onChange:(v:string)=>void;placeholder:string;type?:string}) { return <div><p className="mb-3 text-sm font-semibold text-stone-800">{label}</p><input autoFocus type={type} value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder} className="w-full rounded-xl border border-stone-200 px-4 py-3 text-sm outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-200"/></div>; }
