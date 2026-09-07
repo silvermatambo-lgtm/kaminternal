@@ -1,153 +1,35 @@
-import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowRight, CheckCircle, X } from 'lucide-react';
 import { useInView } from '../hooks/useInView';
 
 function Reveal({ children, className = '', delay = '' }: { children: React.ReactNode; className?: string; delay?: string }) {
   const { ref, inView } = useInView();
-  return (
-    <div ref={ref} className={`${className} ${inView ? `animate-fade-up ${delay}` : 'opacity-0'}`}>
-      {children}
-    </div>
-  );
+  return <div ref={ref} className={`${className} ${inView ? `animate-fade-up ${delay}` : 'opacity-0'}`}>{children}</div>;
 }
 
 const SERVICES = [
-  {
-    title: 'Kitchen Counter Tops',
-    img: 'https://i.imgur.com/rBPNMKo.jpeg',
-    desc: 'Transform your kitchen with stunning stone countertops. We fabricate and install granite, marble, quartz, and porcelain countertops that are both beautiful and highly functional. Our surfaces are heat-resistant, scratch-resistant, and easy to maintain.',
-    features: ['Custom edge profiles', 'Precision cut-outs for sinks & cooktops', 'Seamless joins', 'Full polish & seal'],
-  },
-  {
-    title: 'Bar Tops',
-    img: 'https://i.imgur.com/bYZtqnQ.jpeg',
-    desc: 'Create the ultimate bar experience with a premium stone bar top. Whether it\'s a home entertainment bar or a commercial bar setup, our stone surfaces provide an elegant and durable solution that impresses guests and withstands heavy use.',
-    features: ['Waterfall edges', 'Overhang seating designs', 'Commercial grade sealing', 'Custom shapes available'],
-  },
-  {
-    title: 'Reception Counter Tops',
-    img: 'https://i.imgur.com/9uJGT7h.jpeg',
-    desc: 'Make a powerful first impression with a stunning stone reception counter. Our commercial stone counters project professionalism and quality. Perfect for offices, hotels, salons, medical practices, and retail environments.',
-    features: ['Commercial grade materials', 'Large format slabs available', 'Branded inlays possible', 'Fast installation'],
-  },
-  {
-    title: 'Wall Cladding',
-    img: 'https://i.imgur.com/4QFhhOU.jpeg',
-    desc: 'Elevate any interior or exterior wall with premium stone cladding. Wall cladding using granite, marble, or porcelain creates dramatic focal points and adds lasting value to any property. Ideal for feature walls, fireplace surrounds, and building facades.',
-    features: ['Interior & exterior applications', 'Fireplace surrounds', 'Feature wall design', 'Textured & polished finishes'],
-  },
-  {
-    title: 'Bathroom Vanities',
-    img: 'https://i.imgur.com/BYZAp69.jpeg',
-    desc: 'Bring spa-quality luxury to your bathroom with a custom stone vanity top. Our bathroom vanities are crafted to fit your space perfectly, with basin cut-outs, undercount installations, and beautiful edge profiles to suit any design style.',
-    features: ['Single & double basin options', 'Undermount & drop-in basins', 'Waterproof sealing', 'Matching splashbacks'],
-  },
-  {
-    title: 'Custom Projects',
-    img: 'https://i.imgur.com/k8syAx0.jpeg',
-    desc: 'Have a unique vision? Our team works with architects, interior designers, and homeowners to bring bespoke stone installations to life. From feature staircases to outdoor entertainment areas, we handle projects of any complexity.',
-    features: ['Staircase treads & risers', 'Outdoor entertainment areas', 'Swimming pool surrounds', 'Commercial fit-outs'],
-  },
-];
-
-const MATERIALS = [
-  { name: 'Granite', img: 'https://i.imgur.com/bYZtqnQ.jpeg', desc: 'A natural igneous rock prized for its durability and unique patterns. Every slab is one-of-a-kind.' },
-  { name: 'Marble', img: 'https://i.imgur.com/4QFhhOU.jpeg', desc: 'Classic elegance with veining patterns that have adorned palaces for centuries.' },
-  { name: 'Quartz', img: 'https://i.imgur.com/BYZAp69.jpeg', desc: 'Engineered stone with consistent colour and pattern. Non-porous and virtually maintenance-free.' },
-  { name: 'Porcelain', img: 'https://i.imgur.com/k8syAx0.jpeg', desc: 'Ultra-hard and versatile. Perfect for large format applications and high-traffic areas.' },
+  { title:'Internal Audit & Governance', img:'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1400&q=85', desc:'Strengthen governance, internal controls, accountability and operational performance through structured internal audit support.', features:['Internal control reviews','Governance assessments','Operational audits','Audit readiness support'] },
+  { title:'Asset Management', img:'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=85', desc:'GRAP/IFRS-compliant asset registers, verification, condition assessments, optimisation and asset management procedures.', features:['Asset verification','Condition assessments','Asset register support','Staff training'] },
+  { title:'Budgeting & Municipal Finance', img:'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1400&q=85', desc:'Professional municipal finance support covering budgeting, cash flow, reconciliations, annual financial statements and audit files.', features:['GRAP-compliant budgeting','Cash-flow management','Debtor & creditor reconciliations','Annual financial statements'] },
+  { title:'Enterprise Risk Management', img:'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=85', desc:'Integrated risk management solutions that help organisations identify, assess, monitor and respond to operational and strategic risk.', features:['Enterprise risk assessments','Risk infrastructure','Risk processes','Risk awareness training'] },
+  { title:'Investigations & Compliance', img:'https://images.unsplash.com/photo-1589578527966-fdac0f44566c?auto=format&fit=crop&w=1400&q=85', desc:'Professional forensic investigations, irregular expenditure investigations and regulatory compliance reviews.', features:['Forensic investigations','Irregular expenditure reviews','Compliance assessments','Regulatory reviews'] },
+  { title:'Taxation Services', img:'https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=1400&q=85', desc:'Tax support for companies and individuals, including corporate tax, individual tax and indirect tax matters.', features:['Corporate tax','Individual tax','Indirect tax','Tax practitioner support'] },
+  { title:'IT Systems Services', img:'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=85', desc:'Business IT consulting, support, infrastructure, cybersecurity, cloud, networking, CCTV, business systems and staff digital training.', features:['IT support & infrastructure','Cybersecurity & cloud','Networks & CCTV','Business systems & training'] },
 ];
 
 export default function Services() {
-  return (
-    <div className="page-enter pt-24">
-      {/* Header */}
-      <section className="relative py-20 bg-stone-900 overflow-hidden">
-        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'url(https://i.imgur.com/7dTi44k.jpeg)', backgroundSize: 'cover', backgroundPosition: 'center' }} />
-        <div className="relative max-w-7xl mx-auto px-4 text-center">
-          <span className="section-tag text-amber-400">What We Do</span>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mt-2 mb-4">Our Services</h1>
-          <div className="gold-bar mx-auto" />
-          <p className="text-stone-300 max-w-2xl mx-auto mt-4">
-            From kitchen countertops to wall cladding — we supply and install premium stone surfaces for every application.
-          </p>
-        </div>
-      </section>
-
-      {/* Services list */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 space-y-24">
-          {SERVICES.map((svc, i) => (
-            <Reveal key={svc.title}>
-              <div className={`grid lg:grid-cols-2 gap-12 items-center ${i % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}>
-                <div className={i % 2 !== 0 ? 'lg:order-2' : ''}>
-                  <div className="gallery-item rounded-3xl overflow-hidden shadow-xl h-[360px]">
-                    <img src={svc.img} alt={svc.title} className="w-full h-full object-cover" loading="lazy" />
-                  </div>
-                </div>
-                <div className={i % 2 !== 0 ? 'lg:order-1' : ''}>
-                  <span className="section-tag">Service 0{i + 1}</span>
-                  <h2 className="section-heading mb-4">{svc.title}</h2>
-                  <div className="gold-bar" />
-                  <p className="text-stone-500 leading-relaxed mt-4 mb-6">{svc.desc}</p>
-                  <ul className="space-y-2 mb-6">
-                    {svc.features.map((f) => (
-                      <li key={f} className="flex items-center gap-3 text-stone-700 text-sm">
-                        <CheckCircle size={16} className="text-amber-500 shrink-0" />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <Link to="/contact" className="btn-gold">
-                    Get a Quote <ArrowRight size={16} />
-                  </Link>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Materials */}
-      <section className="py-20 bg-stone-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <Reveal className="text-center mb-14">
-            <span className="section-tag">Materials</span>
-            <h2 className="section-heading text-center">Stone Materials We Work With</h2>
-            <div className="gold-bar mx-auto" />
-          </Reveal>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {MATERIALS.map((mat, i) => (
-              <Reveal key={mat.name} delay={`delay-${(i + 1) * 100}`}>
-                <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                  <div className="gallery-item h-40">
-                    <img src={mat.img} alt={mat.name} className="w-full h-full object-cover" loading="lazy" />
-                  </div>
-                  <div className="p-5">
-                    <h3 className="font-bold text-stone-800 mb-2">{mat.name}</h3>
-                    <p className="text-stone-500 text-xs leading-relaxed">{mat.desc}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-16 bg-amber-500">
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to Get Started?</h2>
-          <p className="text-amber-100 mb-8">Contact us for a free consultation and no-obligation quote.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="tel:+27833522647" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white text-amber-600 font-semibold rounded-xl hover:bg-amber-50 transition-colors">
-              Call 083 352 2647
-            </a>
-            <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border-2 border-white text-white font-semibold rounded-xl hover:bg-white/10 transition-colors">
-              Request a Quote <ArrowRight size={16} />
-            </Link>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
+  const [selected,setSelected]=useState<string|null>(null);
+  const [name,setName]=useState('');
+  const [phone,setPhone]=useState('');
+  const [message,setMessage]=useState('');
+  const sendWhatsApp=()=>{
+    if(!selected) return;
+    const text=`Hello KAM Internal Auditors Inc.%0A%0AI am enquiring about: ${encodeURIComponent(selected)}%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0ADetails: ${encodeURIComponent(message || 'Please contact me with more information.')}`;
+    window.open(`https://wa.me/27151010500?text=${text}`,'_blank');
+  };
+  return <div className="page-enter pt-20 bg-white">
+    <section className="relative py-24 bg-[#071d38] overflow-hidden"><div className="absolute inset-0 opacity-30 bg-[url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1800&q=85')] bg-cover bg-center"/><div className="absolute inset-0 bg-gradient-to-r from-[#06172e] via-[#082c49]/90 to-[#008e9e]/45"/><div className="relative max-w-7xl mx-auto px-5"><p className="text-cyan-300 uppercase tracking-[.25em] text-xs font-bold">Professional Solutions</p><h1 className="text-white text-5xl md:text-6xl font-extrabold mt-3">Our Services</h1><p className="text-slate-200 mt-5 max-w-2xl text-lg">Audit, governance, finance, taxation, compliance and technology solutions designed for public and private organisations.</p></div></section>
+    <section className="py-20"><div className="max-w-7xl mx-auto px-5 space-y-20">{SERVICES.map((svc,i)=><Reveal key={svc.title}><div className="grid lg:grid-cols-2 gap-12 items-center"><div className={i%2?'lg:order-2':''}><img src={svc.img} alt={svc.title} className="w-full h-[360px] object-cover rounded-3xl shadow-2xl"/></div><div className={i%2?'lg:order-1':''}><p className="text-cyan-600 uppercase tracking-widest text-xs font-bold">Service {String(i+1).padStart(2,'0')}</p><h2 className="text-3xl md:text-4xl font-extrabold text-[#08213f] mt-2 mb-4">{svc.title}</h2><p className="text-slate-600 leading-7 mb-5">{svc.desc}</p><ul className="space-y-2 mb-7">{svc.features.map(f=><li key={f} className="flex items-center gap-2 text-slate-700"><CheckCircle size={17} className="text-cyan-500"/>{f}</li>)}</ul><button onClick={()=>setSelected(svc.title)} className="inline-flex items-center gap-2 bg-[#08213f] hover:bg-cyan-700 text-white px-6 py-3.5 rounded-xl font-bold transition">Request this Service <ArrowRight size={17}/></button></div></div></Reveal>)}</div></section>
+    {selected&&<div className="fixed inset-0 z-[80] bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4"><div className="bg-white w-full max-w-lg rounded-3xl shadow-2xl p-7 relative"><button onClick={()=>setSelected(null)} className="absolute right-5 top-5 text-slate-500"><X/></button><p className="text-cyan-600 uppercase tracking-widest text-xs font-bold">Service Enquiry</p><h3 className="text-2xl font-extrabold text-[#08213f] mt-2 mb-1">{selected}</h3><p className="text-slate-500 text-sm mb-5">Complete your details and the enquiry will open in WhatsApp ready to send.</p><div className="space-y-3"><input value={name} onChange={e=>setName(e.target.value)} placeholder="Your full name" className="w-full border border-slate-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-400"/><input value={phone} onChange={e=>setPhone(e.target.value)} placeholder="Your phone number" className="w-full border border-slate-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-400"/><textarea value={message} onChange={e=>setMessage(e.target.value)} placeholder="Tell us what you need" rows={4} className="w-full border border-slate-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-400"/><button onClick={sendWhatsApp} className="w-full bg-[#25D366] hover:bg-[#1fbd5a] text-white py-3.5 rounded-xl font-bold">Continue to WhatsApp</button></div></div></div>}
+  </div>;
 }
